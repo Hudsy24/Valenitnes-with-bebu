@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Day Surprise 💕</title>
+    <style>
+        :root {
+            --pink: #ff69b4;
+            --red: #ff1744;
+            --light-pink: #ffb3d9;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* Theme Selection Screen */
+        .theme-selector {
+            text-align: center;
+            padding: 40px;
+            background: linear-gradient(135deg, var(--pink) 0%, var(--red) 100%);
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(255, 23, 68, 0.3);
+            max-width: 500px;
+        }
+
+        .theme-selector h1 {
+            color: var(--white);
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .theme-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .theme-btn {
+            padding: 20px 40px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            background: var(--white);
+            color: var(--red);
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .theme-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Main Question Container */
+        .container {
+            display: none;
+            text-align: center;
+            padding: 60px 40px;
+            border-radius: 30px;
+            box-shadow: 0 15px 50px rgba(255, 23, 68, 0.4);
+            max-width: 600px;
+            position: relative;
+        }
+
+        .container.active {
+            display: block;
+        }
+
+        /* Theme 1: Teddies & Flowers */
+        .theme-teddies {
+            background: linear-gradient(135deg, #ffe6f0 0%, #ffd6e8 100%);
+        }
+
+        /* Theme 2: Food & Clothes */
+        .theme-food {
+            background: linear-gradient(135deg, #fff0f5 0%, #ffe4e9 100%);
+        }
+
+        .heart-decoration {
+            position: absolute;
+            font-size: 2rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .name {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--red);
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(255, 105, 180, 0.3);
+        }
+
+        .question {
+            font-size: 2rem;
+            color: var(--red);
+            margin-bottom: 40px;
+            font-weight: 600;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            align-items: center;
+            min-height: 80px;
+            position: relative;
+        }
+
+        .btn {
+            padding: 20px 50px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .yes-btn {
+            background: linear-gradient(135deg, var(--red) 0%, var(--pink) 100%);
+            color: var(--white);
+        }
+
+        .yes-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(255, 23, 68, 0.5);
+        }
+
+        .no-btn {
+            background: linear-gradient(135deg, #666 0%, #999 100%);
+            color: var(--white);
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Success Screen */
+        .success {
+            display: none;
+            text-align: center;
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 15px 50px rgba(255, 23, 68, 0.4);
+            max-width: 600px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .success.active {
+            display: block;
+            animation: zoomIn 0.5s ease-out;
+        }
+
+        @keyframes zoomIn {
+            from {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .success.theme-teddies {
+            background: linear-gradient(135deg, #ffe6f0 0%, #ffd6e8 100%);
+        }
+
+        .success.theme-food {
+            background: linear-gradient(135deg, #fff0f5 0%, #ffe4e9 100%);
+        }
+
+        .hug-image {
+            width: 300px;
+            height: 300px;
+            margin: 20px auto;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(255, 105, 180, 0.3);
+        }
+
+        .teddy-message {
+            font-size: 3rem;
+            color: var(--red);
+            font-weight: bold;
+            margin-top: 20px;
+            animation: bounce 0.6s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .success-text {
+            font-size: 2rem;
+            color: var(--red);
+            margin: 20px 0;
+            font-weight: 600;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: var(--pink);
+            animation: confetti-fall 3s linear infinite;
+        }
+
+        @keyframes confetti-fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Theme decorations */
+        .decoration-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .decoration {
+            position: absolute;
+            font-size: 2.5rem;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .back-btn {
+            margin-top: 30px;
+            padding: 15px 40px;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            background: var(--white);
+            color: var(--red);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s;
+        }
+
+        .back-btn:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <!-- Theme Selection Screen -->
+    <div class="theme-selector" id="themeSelector">
+        <h1>💕 Choose Your Valentine Theme 💕</h1>
+        <div class="theme-buttons">
+            <button class="theme-btn" onclick="selectTheme('teddies')">
+                🧸 Teddies & Flowers 🌹
+            </button>
+            <button class="theme-btn" onclick="selectTheme('food')">
+                🍰 Food & Clothes 👗
+            </button>
+        </div>
+    </div>
+
+    <!-- Theme 1: Teddies & Flowers -->
+    <div class="container theme-teddies" id="containerTeddies">
+        <div class="decoration-container">
+            <span class="decoration" style="top: 10%; left: 10%; animation-delay: 0s;">🧸</span>
+            <span class="decoration" style="top: 15%; right: 15%; animation-delay: 1s;">🌹</span>
+            <span class="decoration" style="bottom: 20%; left: 15%; animation-delay: 2s;">💐</span>
+            <span class="decoration" style="bottom: 15%; right: 10%; animation-delay: 1.5s;">🧸</span>
+            <span class="heart-decoration" style="top: 5%; left: 50%; animation-delay: 0.5s;">💕</span>
+        </div>
+        
+        <div class="name">Urvashi baby 💖</div>
+        <div class="question">Will you be my valentine?</div>
+        
+        <div class="buttons">
+            <button class="btn yes-btn" onclick="sayYes('teddies')">Yes! 💕</button>
+            <button class="btn no-btn" id="noBtn1" onmouseover="moveButton(event, 'noBtn1')" onclick="moveButton(event, 'noBtn1')">No</button>
+        </div>
+        
+        <button class="back-btn" onclick="backToThemeSelector()">← Change Theme</button>
+    </div>
+
+    <!-- Theme 2: Food & Clothes -->
+    <div class="container theme-food" id="containerFood">
+        <div class="decoration-container">
+            <span class="decoration" style="top: 10%; left: 10%; animation-delay: 0s;">🍰</span>
+            <span class="decoration" style="top: 15%; right: 15%; animation-delay: 1s;">👗</span>
+            <span class="decoration" style="bottom: 20%; left: 15%; animation-delay: 2s;">🍕</span>
+            <span class="decoration" style="bottom: 15%; right: 10%; animation-delay: 1.5s;">👚</span>
+            <span class="heart-decoration" style="top: 5%; left: 50%; animation-delay: 0.5s;">💕</span>
+        </div>
+        
+        <div class="name">Urvashi baby 💖</div>
+        <div class="question">Will you be my valentine?</div>
+        
+        <div class="buttons">
+            <button class="btn yes-btn" onclick="sayYes('food')">Yes! 💕</button>
+            <button class="btn no-btn" id="noBtn2" onmouseover="moveButton(event, 'noBtn2')" onclick="moveButton(event, 'noBtn2')">No</button>
+        </div>
+        
+        <button class="back-btn" onclick="backToThemeSelector()">← Change Theme</button>
+    </div>
+
+    <!-- Success Screen Teddies -->
+    <div class="success theme-teddies" id="successTeddies">
+        <div class="success-text">🎉 Yayyy! She said YES! 🎉</div>
+        <img src="https://pplx-res.cloudinary.com/image/upload/v1770114524/search_images/e18905eb4a69ffd2fe71ded8419f6c0160cd702e.jpg" alt="Couple Hugging" class="hug-image">
+        <div class="teddy-message">🧸 Yayyyyyyy! 🧸</div>
+        <div style="font-size: 1.5rem; color: var(--pink); margin-top: 20px;">
+            🌹 Happy Valentine's Day, Urvashi baby! 💕
+        </div>
+        <button class="back-btn" onclick="backToThemeSelector()">← Start Over</button>
+    </div>
+
+    <!-- Success Screen Food -->
+    <div class="success theme-food" id="successFood">
+        <div class="success-text">🎉 Yayyy! She said YES! 🎉</div>
+        <img src="https://pplx-res.cloudinary.com/image/upload/v1770114524/search_images/e18905eb4a69ffd2fe71ded8419f6c0160cd702e.jpg" alt="Couple Hugging" class="hug-image">
+        <div class="teddy-message">🧸 Yayyyyyyy! 🧸</div>
+        <div style="font-size: 1.5rem; color: var(--pink); margin-top: 20px;">
+            🍰 Happy Valentine's Day, Urvashi baby! 💕
+        </div>
+        <button class="back-btn" onclick="backToThemeSelector()">← Start Over</button>
+    </div>
+
+    <script>
+        function selectTheme(theme) {
+            document.getElementById('themeSelector').style.display = 'none';
+            
+            if (theme === 'teddies') {
+                document.getElementById('containerTeddies').classList.add('active');
+                document.body.style.background = 'linear-gradient(135deg, #ff69b4 0%, #ff1744 100%)';
+            } else {
+                document.getElementById('containerFood').classList.add('active');
+                document.body.style.background = 'linear-gradient(135deg, #ff8fab 0%, #ff6b9d 100%)';
+            }
+        }
+
+        function backToThemeSelector() {
+            document.getElementById('themeSelector').style.display = 'block';
+            document.getElementById('containerTeddies').classList.remove('active');
+            document.getElementById('containerFood').classList.remove('active');
+            document.getElementById('successTeddies').classList.remove('active');
+            document.getElementById('successFood').classList.remove('active');
+            document.body.style.background = 'linear-gradient(135deg, #ff69b4 0%, #ff1744 100%)';
+        }
+
+        function moveButton(e, btnId) {
+            e.preventDefault();
+            const btn = document.getElementById(btnId);
+            const container = btn.closest('.container');
+            const containerRect = container.getBoundingClientRect();
+            
+            const maxX = containerRect.width - btn.offsetWidth - 80;
+            const maxY = containerRect.height - btn.offsetHeight - 80;
+            
+            const randomX = Math.random() * maxX;
+            const randomY = Math.random() * maxY;
+            
+            btn.style.left = randomX + 'px';
+            btn.style.top = randomY + 'px';
+        }
+
+        function sayYes(theme) {
+            if (theme === 'teddies') {
+                document.getElementById('containerTeddies').classList.remove('active');
+                document.getElementById('successTeddies').classList.add('active');
+            } else {
+                document.getElementById('containerFood').classList.remove('active');
+                document.getElementById('successFood').classList.add('active');
+            }
+            
+            createConfetti();
+        }
+
+        function createConfetti() {
+            const colors = ['#ff69b4', '#ff1744', '#ffb3d9', '#ff8fab', '#ffd700'];
+            const container = document.querySelector('.success.active');
+            
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animationDelay = Math.random() * 3 + 's';
+                    confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                    container.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 5000);
+                }, i * 50);
+            }
+        }
+    </script>
+</body>
+</html>
+
